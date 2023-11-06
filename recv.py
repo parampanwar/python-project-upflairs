@@ -8,11 +8,8 @@ s.connect((server_ip, server_port))
 print("Welcome to the Multi-User Chatroom")
 
 while True:
-    msg = input("Please enter your message (To quit enter '/exit'): ")
+    msg = input("Please enter your message: ")
 
-    if msg == '/exit':
-        print("Exiting the chatroom.")
-        break
 
     new_msg = msg.encode('ascii')
     s.send(new_msg)
