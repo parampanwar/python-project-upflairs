@@ -2,40 +2,37 @@ import socket
 import os
 import threading
 
-
-def handle_client(client_socket):
-    while True:
-        data = client_socket.recv(100)
-        message = data.decode('ascii')
-        if not data:
-            break  # Connection closed by receiver
-        print(f"Message from {client_socket.getpeername()[0]}: {message}")
-
-        directory_path = 'chat_users'
-        if not os.path.exists(directory_path):
-            os.makedirs(directory_path)
-        file_name = client_socket.getpeername()[0]
-
-        with open(os.path.join('chat_users', file_name + '.txt'), 'a+') as f:
-            f.write(f"{message}\n")
-
-        response = input("Enter your reply: ")
-        client_socket.send(response.encode('ascii'))
-
-    client_socket.close()
-
+#UDP socket
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-my_ip = "192.168.1.58"
-my_port = 9999
-my_address = (my_ip, my_port)
-s.bind(my_address)
-s.listen(5)
 
-print("Welcome to TCP Multi-User Chatroom")
+target_ip = "127.0.0.1"
+target_port = 9999
+final_target = (target_ip, target_port)
+
+# Creating a folder if it doesn't exist
+folder_name = 'data_folder'
+if not os.path.exists(folder_name):
+    os.makedirs(folder_name)
+print("Welcome to UDP chatroom!")
+
 
 while True:
-    client_socket, client_address = s.accept()
-    print(f"Accepted connection from {client_address[0]}:{client_address[1]}")
+        msg = input("Please enter your message: ")
     
-    client_thread = threading.Thread(target=handle_client, args=(client_socket,))
-    client_thread.start()
+        new_msg = msg.encode('ascii')
+    
+        s.sendto(new_msg, final_target)
+    
+        # Creating a filename using the target IP address
+        filename = os.path.join(folder_name, f"{target_ip}.txt")
+    
+        # Saving the message to a .txt file
+        with open(filename, 'a') as file:
+            file.write(msg + '\n')
+            data = s.recvfrom(1024)
+        received_msg = data[0].decode('ascii') 
+        print("Received Message:", received_msg)
+
+
+
+
