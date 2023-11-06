@@ -2,13 +2,13 @@ import socket
 import os
 import threading
 
-# Function to handle each client
+
 def handle_client(client_socket):
     while True:
         data = client_socket.recv(100)
         message = data.decode('ascii')
         if not data:
-            break  # Connection closed by the client
+            break  # Connection closed by receiver
         print(f"Message from {client_socket.getpeername()[0]}: {message}")
 
         directory_path = 'chat_users'
