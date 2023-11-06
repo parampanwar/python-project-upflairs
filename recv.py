@@ -1,6 +1,6 @@
 import socket
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_ip = "127.0.0.1"
 server_port = 9999
 s.connect((server_ip, server_port))
