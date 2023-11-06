@@ -24,7 +24,7 @@ def handle_client(client_socket):
 
     client_socket.close()
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 my_ip = "192.168.1.58"
 my_port = 9999
 my_address = (my_ip, my_port)
